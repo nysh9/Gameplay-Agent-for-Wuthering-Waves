@@ -9,7 +9,6 @@ def main():
     # Initialize agent
     agent = create_wuwa_agent()
     
-    # Interactive loop
     while True:
         user_input = input("\n Ask anything: ").strip()
         
@@ -23,28 +22,21 @@ def main():
         
         # Run agent
         try:
-            # LangGraph agents use streaming by default
-            # We'll collect all events and show the final result
             print("\n" + "="*50)
             print("Thinking...")
             print("="*50)
             
             final_response = None
-            
-            # Stream events from the agent
             for event in agent.stream(
                 {"messages": [{"role": "user", "content": user_input}]},
                 stream_mode="values"
             ):
-                # Get the last message in the state
                 if "messages" in event:
                     last_message = event["messages"][-1]
-                    
-                    # Check if it's a tool call or final answer
                     if hasattr(last_message, 'content') and last_message.content:
                         final_response = last_message.content
             
-            # Print final answer
+            # final answer
             if final_response:
                 print(f"\nAnswer:\n{final_response}\n")
             else:
