@@ -1,4 +1,4 @@
-from agent import create_wuwa_agent
+from agent import create_wuwa_agent, build_rag_prompt
 
 def main():
     """Simple CLI for testing the agent."""
@@ -27,8 +27,9 @@ def main():
             print("="*50)
             
             final_response = None
+            rag_prompt = build_rag_prompt(user_input)
             for event in agent.stream(
-                {"messages": [{"role": "user", "content": user_input}]},
+                {"messages": [{"role": "user", "content": rag_prompt}]},
                 stream_mode="values"
             ):
                 if "messages" in event:
