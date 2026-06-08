@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    to top,
+    #1a2a4a 0%,
+    #2a5a8a 40%,
+    #4a90c4 70%,
+    #b8d4e8 100%
+  );
+}
+
+/* Warm golden light source — soft glow behind the chat */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(180, 130, 220, 0.25) 0%,
+    rgba(120, 180, 220, 0.12) 30%,
+    transparent 70%
+  );
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* Floating particles — drift upward and fade */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -20px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 240, 200, 0.9);
+  box-shadow: 0 0 8px rgba(255, 220, 150, 0.8);
+  opacity: 0;
+  animation-name: drift;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+}
+
+@keyframes drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.9; }
+  80%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
