@@ -93,6 +93,7 @@ GAME8_CHARACTER_IDS = {
     "galbrena": "524888",
     "qiuyuan": "524882",
     "luuk herssen": "568210",
+    "luuk": "568210",
     "denia": "585681",
     "sanhua": "454225",
     # A Tier 2
@@ -215,5 +216,42 @@ def scrape_game8_guide(topic: str) -> str:
                 break
 
         return markdown_content[:12000]
+    except Exception as e:
+        return f"Scraper Error: {str(e)}"
+
+
+@tool
+def get_game_mechanics(topic: str) -> str:
+    """
+    Scrapes Game8 for Wuthering Waves game mechanics, progression
+    systems, and beginner guides. Use this to verify any factual
+    claims about how the game works — leveling systems, echo systems,
+    resonance, union level, stamina, etc. Always use before answering
+    mechanics questions or when a user states a game fact that needs
+    verification. Do NOT use for character builds or team comps.
+    """
+    urls = {
+        "leveling": "https://game8.co/games/Wuthering-Waves/archives/454730",
+        "echoes": "https://game8.co/games/Wuthering-Waves/archives/454731",
+        "general": "https://game8.co/games/Wuthering-Waves/archives/454730",
+    }
+    url = urls.get(topic, urls["general"])
+    try:
+        result = firecrawl_client.scrape(url)
+        markdown_content = getattr(result, "markdown", None)
+        if not markdown_content:
+            return "Could not retrieve game mechanics data."
+
+        for marker in [
+            "Wuthering Waves Walkthrough Team",
+            "Last updated on",
+            "Table of Contents",
+        ]:
+            idx = markdown_content.find(marker)
+            if idx != -1:
+                markdown_content = markdown_content[idx:]
+                break
+
+        return markdown_content[:3000]
     except Exception as e:
         return f"Scraper Error: {str(e)}"

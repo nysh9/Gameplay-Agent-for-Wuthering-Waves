@@ -37,7 +37,7 @@ Every user message is first passed through a ChromaDB retrieval step, which pull
 Clone the repo:
 
 ```bash
-git clone https://github.com/your-handle/wuwa-agent.git
+git clone https://github.com/nysh9/wuwa-agent.git
 cd wuwa-agent
 ```
 
